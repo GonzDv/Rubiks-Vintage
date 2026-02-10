@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "components/public/Hero", "components/public/Navbar.jsx", "app/(public)/layout.jsx", "app/page.tsx", "app/layout.jsx"  ],
   "exclude": ["node_modules"]
 }
