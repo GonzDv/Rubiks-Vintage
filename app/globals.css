@@ -1,8 +1,17 @@
 @import "tailwindcss";
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --gold: #A07F3A;
+  --wheat: #C8AA6F;
+  --charcoal: #2F2F2F;
+  --sand: #E3D5BB;
+  --black: #000000;
+}
+
+body {
+  background-color: var(--sand); /* El color crema de fondo */
+  color: var(--charcoal);
 }
 
 @theme inline {

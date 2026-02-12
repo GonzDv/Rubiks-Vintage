@@ -2,21 +2,15 @@ import Navbar from "@/components/public/Navbar";
 
 export default function PublicLayout({ children }) {
   return (
-    <div className="flex flex-col min-h-screen bg-white">
-      {/* El Navbar se coloca aquí para que aparezca 
-        en todas las rutas dentro de (public) 
-      */}
+    <div className="flex flex-col min-h-scree">
+
       <Navbar />
 
-      {/* 'flex-grow' asegura que el contenido principal 
-        empuje el footer hacia abajo si hay poco contenido 
-      */}
-      <main className="flex-grow">
+      <main className="flex-grow bg-[#f0ede9]">
         {children}
       </main>
 
-      {/* Footer sencillo y elegante */}
-      <footer className="border-t border-gray-100 py-12 bg-[#F9F8F6]">
+      <footer className="border-t border-gray-100 py-12 bg-[#F9F8F6]/80">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="text-center md:text-left">
             <h3 className="font-serif italic text-xl">

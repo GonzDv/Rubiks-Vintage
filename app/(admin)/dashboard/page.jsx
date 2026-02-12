@@ -9,7 +9,6 @@ import {
 } from 'lucide-react';
 
 export default function DashboardPage() {
-  // Datos de ejemplo basados en tus diseños (Mock Data)
   const stats = [
     { label: "Ingresos Totales", value: "$128,430", icon: DollarSign, trend: "+12.5%", color: "text-green-600" },
     { label: "Pedidos Activos", value: "45", icon: ShoppingBag, detail: "12 pendientes de envío", color: "text-blue-600" },
@@ -25,13 +24,11 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-10">
-      {/* Header del Dashboard */}
       <div>
         <h1 className="text-3xl font-serif text-black">Panel de Control</h1>
         <p className="text-sm text-gray-500 mt-1">Bienvenido de nuevo. Aquí tienes un resumen de Rubik's Vintage hoy.</p>
       </div>
 
-      {/* Grid de Tarjetas de Estadísticas (Inspirado en image_a809be.jpg) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => (
           <div key={index} className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
@@ -94,7 +91,6 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Resumen de Inventario (Inspirado en image_a809ba.jpg) */}
         <div className="bg-black text-white rounded-xl p-8 flex flex-col justify-between">
           <div>
             <h2 className="text-xl font-serif italic mb-2">Estado del Inventario</h2>

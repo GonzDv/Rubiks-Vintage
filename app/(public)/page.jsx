@@ -1,14 +1,13 @@
 import { supabase } from "@/lib/supabase";
 import Hero from "@/components/public/Hero";
 import ProductCard from "@/components/public/ProductCard";
-
-// Esta función se ejecuta en el servidor antes de mostrar la página
+import Link from "next/link";
 async function getFeaturedProducts() {
   const { data, error } = await supabase
     .from('products')
-    .select('*, categories(name)') // Traemos la info del producto y el nombre de su categoría
+    .select('*, categories(name)')
     .order('created_at', { ascending: false })
-    .limit(6); // Solo mostramos los últimos 6 para la Home
+    .limit(6);
 
   if (error) {
     console.error("Error al traer productos:", error.message);
@@ -21,7 +20,7 @@ export default async function HomePage() {
   const products = await getFeaturedProducts();
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-[#f0ede9]">
      
       <Hero />
 
@@ -36,9 +35,9 @@ export default async function HomePage() {
               Novedades de la Semana
             </h2>
           </div>
-          <button className="text-[10px] uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 hover:border-gray-300 transition-colors">
+          <Link href="/products" className="text-[10px] uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 hover:border-gray-300 transition-colors">
             Ver todas las piezas
-          </button>
+          </Link>
         </div>
 
         {products.length > 0 ? (

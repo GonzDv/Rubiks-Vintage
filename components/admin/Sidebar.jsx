@@ -28,14 +28,12 @@ export default function Sidebar() {
 
   return (
     <aside className="w-64 bg-[#1A1A1A] text-white min-h-screen h-[100vh] flex flex-col fixed left-0 top-0">
-      {/* Brand / Logo */}
       <div className="p-8 border-b border-white/5">
         <h2 className="text-xl font-serif italic">
           Rubik's <span className="text-gray-500 not-italic text-sm">Admin</span>
         </h2>
       </div>
 
-      {/* Navigation Links */}
       <nav className="flex-1 px-4 py-8 space-y-2">
         {menuItems.map((item) => {
           const isActive = pathname === item.href;
@@ -55,7 +53,6 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* Bottom Actions */}
       <div className="p-6 border-t border-white/5 space-y-4">
         <Link href="/settings" className="flex items-center gap-4 px-4 py-2 text-sm text-gray-400 hover:text-white transition">
           <Settings size={18} strokeWidth={1.5} />
