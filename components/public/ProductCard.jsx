@@ -1,37 +1,48 @@
+'use client';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useState } from 'react';
+import QuickViewModal from './QuickViewModal';
 
-export default function ProductCard({ product, className }) {
-console.log("Renderizando ProductCard con producto:", product.image_url);
-  return (
-    <div className={`group cursor-pointer ${className}`}>
-      <div className="aspect-3/4 bg-[#F9F8F6] mb-4 overflow-hidden relative rounded-sm">
-        <Image
-          src={product.image_url || "/images/placeholder-jewelry.jpg"}
-          alt={product.name}
-          fill
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-        <div className="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity">
-          <span className="bg-white/90 backdrop-blur-sm text-[8px] uppercase tracking-widest px-2 py-1 text-black font-bold">
-            {product.categories?.name}
-          </span>
-        </div>
-      </div>
+export default function ProductCard({ product }) {
+	const [showModal, setShowModal] = useState(false);
 
-      <div className="flex justify-between items-start gap-4 px-1">
-        <div>
-          <h3 className="text-[13px] font-medium text-gray-900 uppercase tracking-[0.15em] leading-tight">
-            {product.name}
-          </h3>
-          <p className="text-[12px] text-gray-400 mt-1 italic">
-            Oro Laminado
-          </p>
-        </div>
-        <p className="text-2xs font-bold text-gray-900">
-          ${product.base_price?.toLocaleString('es-MX')}
-        </p>
-      </div>
-    </div>
-  );
+	return (
+		<>
+			<div
+				className='group cursor-pointer'
+				onClick={() => setShowModal(true)}
+			>
+				<div className='relative aspect-[3/4] bg-white overflow-hidden rounded-xl mb-4 shadow-sm'>
+					<Image
+						src={product.image_url}
+						alt={product.name}
+						fill
+						className='object-cover transition-transform duration-700 group-hover:scale-110'
+					/>
+					{/* Badge de "Vista Rápida" al hacer hover */}
+					<div className='absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-6'>
+						<span className='bg-white/90 px-4 py-2 text-[8px] uppercase tracking-[0.2em] font-bold backdrop-blur-sm'>
+							Vista Rápida
+						</span>
+					</div>
+				</div>
+				<h3 className='text-[11px] uppercase tracking-widest text-black/80 font-medium mb-1 truncate'>
+					{product.name}
+				</h3>
+				<p className='text-sm font-serif italic text-[#A07F3A]'>
+					${product.base_price?.toLocaleString()} MXN
+				</p>
+			</div>
+
+			{showModal && (
+				<QuickViewModal
+					product={product}
+					onClose={(e) => {
+						e.stopPropagation(); // Evita que el clic cierre y abra al mismo tiempo
+						setShowModal(false);
+					}}
+				/>
+			)}
+		</>
+	);
 }
