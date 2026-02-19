@@ -12,7 +12,7 @@ export default function ProductCard({ product }) {
 				className='group cursor-pointer'
 				onClick={() => setShowModal(true)}
 			>
-				<div className='relative aspect-[3/4] bg-white overflow-hidden rounded-xl mb-4 shadow-sm'>
+				<div className='relative aspect-3/4 bg-white overflow-hidden rounded-xl mb-4 shadow-sm'>
 					<Image
 						src={product.image_url}
 						alt={product.name}

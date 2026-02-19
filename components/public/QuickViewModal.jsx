@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import Image from 'next/image';
 import { X, ShoppingBag, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
@@ -10,18 +10,16 @@ export default function QuickViewModal({ product, onClose }) {
 
 	if (!product) return null;
 
-	// Simulamos galería si solo tienes una imagen, o usamos el array si ya lo tienes
 	const images = product.images || [product.image_url];
 
 	return (
-		<div className='fixed inset-0 z-[110] flex items-center justify-center p-4'>
+		<div className='fixed inset-0 z-110 flex items-center justify-center p-4'>
 			<div
 				className='absolute inset-0 bg-black/60 backdrop-blur-md'
 				onClick={onClose}
 			/>
 
-			<div className='relative bg-[#F5F1EB] w-full max-w-5xl max-h-[90vh] overflow-hidden rounded-2xl flex flex-col md:flex-row shadow-2xl animate-in zoom-in duration-300'>
-				{/* Botón Cerrar */}
+			<div className='relative bg-[#F5F1EB] w-full max-w-3xl max-h-[90vh] overflow-hidden rounded-2xl flex flex-col md:flex-row shadow-2xl animate-in zoom-in duration-300'>
 				<button
 					onClick={onClose}
 					className='absolute top-4 right-4 z-20 p-2 bg-white/50 hover:bg-white rounded-full transition-all'
@@ -29,12 +27,12 @@ export default function QuickViewModal({ product, onClose }) {
 					<X size={20} strokeWidth={1} />
 				</button>
 
-				<div className='w-full md:w-3/5 relative bg-whit aspect-ratio-2/4 aspect-square md:aspect-auto'>
+				<div className=' md:w-3/5 relative bg-whit aspect-ratio-3/4 aspect-square md:aspect-auto'>
 					<Image
 						src={images[currentImg]}
 						alt={product.name}
 						fill
-						className='object-cover'
+						className='object-fill object-center'
 					/>
 					{images.length > 1 && (
 						<div className='absolute inset-0 flex items-center justify-between px-4'>
@@ -47,8 +45,6 @@ export default function QuickViewModal({ product, onClose }) {
 						</div>
 					)}
 				</div>
-
-				{/* Información y Compra */}
 				<div className='w-full md:w-2/5 p-8 md:p-12 flex flex-col justify-center bg-[#F5F1EB]'>
 					<span className='text-[9px] uppercase tracking-[0.4em] text-[#C4A95E] font-bold mb-4 block'>
 						{product.categories?.name}

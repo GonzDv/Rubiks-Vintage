@@ -1,6 +1,7 @@
 import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
 import { ShoppingBag, ChevronRight, ShieldCheck, Truck } from 'lucide-react';
+import Link from 'next/link';
 
 async function getProduct(id) {
 	const { data } = await supabase
@@ -41,9 +42,12 @@ export default async function ProductDetailPage({ params }) {
 				{/* Información Editorial */}
 				<div className='flex flex-col space-y-8 lg:sticky lg:top-32'>
 					<nav className='flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-black/40'>
-						<span className='hover:text-black cursor-pointer font-bold'>
+						<Link
+							href={'/products'}
+							className='hover:text-black cursor-pointer font-bold'
+						>
 							Tienda
-						</span>
+						</Link>
 						<ChevronRight size={10} />
 						<span className='text-[#C4A95E] font-bold'>
 							{product.categories?.name}
