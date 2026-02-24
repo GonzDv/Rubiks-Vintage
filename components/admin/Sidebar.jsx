@@ -30,7 +30,7 @@ export default function Sidebar() {
     <aside className="w-64 bg-[#1A1A1A] text-white min-h-screen h-[100vh] flex flex-col fixed left-0 top-0">
       <div className="p-8 border-b border-white/5">
         <h2 className="text-xl font-serif italic">
-          Rubik's <span className="text-gray-500 not-italic text-sm">Admin</span>
+          ZÁLEA <span className="text-gray-500 not-italic text-sm">Admin</span>
         </h2>
       </div>
 

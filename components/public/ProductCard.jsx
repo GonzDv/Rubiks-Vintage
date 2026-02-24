@@ -17,9 +17,11 @@ export default function ProductCard({ product }) {
 						src={product.image_url}
 						alt={product.name}
 						fill
+						sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
 						className='object-cover transition-transform duration-700 group-hover:scale-110'
+						placeholder='blur'
+						blurDataURL={product.image_url}
 					/>
-					{/* Badge de "Vista Rápida" al hacer hover */}
 					<div className='absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-6'>
 						<span className='bg-white/90 px-4 py-2 text-[8px] uppercase tracking-[0.2em] font-bold backdrop-blur-sm'>
 							Vista Rápida
@@ -38,7 +40,7 @@ export default function ProductCard({ product }) {
 				<QuickViewModal
 					product={product}
 					onClose={(e) => {
-						e.stopPropagation(); // Evita que el clic cierre y abra al mismo tiempo
+						e.stopPropagation();
 						setShowModal(false);
 					}}
 				/>

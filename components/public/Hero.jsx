@@ -38,8 +38,10 @@ export default function Hero() {
           src="https://jewelrydesignhouse.com/cdn/shop/collections/Mermaid_Fine_Jewelry_Collection.jpg?crop=center&height=1332&v=1692209360&width=2000" 
           alt="Detalle de joyería ZÁLEA"
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover object-center grayscale-20 hover:grayscale-0 transition-all duration-1000"
           priority
+          
         />
         <div className="absolute inset-0 bg-[#DBD2C8]/10 mix-blend-multiply pointer-events-none"></div>
       </div>

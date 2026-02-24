@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { Camera, Tag, Package, Loader2, Info, Plus } from "lucide-react";
 import NotificationSuccess from "@/components/admin/NotificationSuccess";
+import Image from "next/image";
 export default function InventoryPage() {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -89,7 +90,7 @@ export default function InventoryPage() {
       {/* Header de la página */}
       <header className="mb-10">
         <h1 className="text-3xl font-serif text-black italic">Gestión de Inventario</h1>
-        <p className="text-sm text-gray-500 mt-2 font-light tracking-wide uppercase">Añade nuevas piezas a la colección Rubik's Vintage</p>
+        <p className="text-sm text-gray-500 mt-2 font-light tracking-wide uppercase">Añade nuevas piezas a la colección Rubik&apos;s Vintage</p>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
@@ -110,7 +111,7 @@ export default function InventoryPage() {
                 <label className="block text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-3 font-semibold">Fotografía del Producto</label>
                 <div className="group relative w-full h-64 border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center hover:border-black hover:bg-gray-50/50 transition-all cursor-pointer overflow-hidden">
                   {previewUrl ? (
-                    <img src={previewUrl} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Preview" />
+                    <Image src={previewUrl} fill unoptimized className="object-cover transition-transform duration-500 group-hover:scale-105" alt="Preview" />
                   ) : (
                     <div className="text-center text-gray-400 p-6">
                       <div className="bg-gray-50 p-4 rounded-full inline-block mb-3 group-hover:bg-white transition-colors">
@@ -217,9 +218,9 @@ export default function InventoryPage() {
             </h2>
             
             <div className="group bg-white p-4 shadow-sm rounded-lg">
-              <div className="aspect-[3/4] bg-gray-50 mb-6 overflow-hidden relative rounded-md">
+              <div className="aspect-3/4 bg-gray-50 mb-6 overflow-hidden relative rounded-md">
                 {previewUrl ? (
-                  <img src={previewUrl} className="w-full h-full object-cover" alt="Preview" />
+                  <Image src={previewUrl} fill unoptimized className="object-cover" alt="Preview" />
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center bg-[#F9F8F6] p-4 text-center">
                     <p className="text-[10px] text-gray-300 uppercase italic tracking-widest">Esperando imagen</p>

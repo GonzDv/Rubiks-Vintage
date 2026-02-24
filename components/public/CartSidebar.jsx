@@ -16,7 +16,6 @@ export default function CartSidebar({ isOpen, onClose }) {
 				onClick={onClose}
 			/>
 
-			{/* Contenedor del Carrito */}
 			<div className='relative w-full max-w-md bg-[#F5F1EB] h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-500'>
 				<header className='p-8 border-b border-black/5 flex justify-between items-center bg-[#DBD2C8]'>
 					<h2 className='text-xl font-serif italic text-black'>

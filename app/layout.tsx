@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: 'ZELEA',
-	description: 'ZELEA JOYERIA',
+	title: 'ZALEA',
+	description: 'ZALEA JOYERIA',
 };
 
 export default function RootLayout({

@@ -27,11 +27,12 @@ export default function QuickViewModal({ product, onClose }) {
 					<X size={20} strokeWidth={1} />
 				</button>
 
-				<div className=' md:w-3/5 relative bg-whit aspect-ratio-3/4 aspect-square md:aspect-auto'>
+				<div className=' md:w-3/5 relative bg-whit aspect-ratio-3/4 overflow-hidden aspect-square md:aspect-auto'>
 					<Image
 						src={images[currentImg]}
 						alt={product.name}
 						fill
+						sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
 						className='object-fill object-center'
 					/>
 					{images.length > 1 && (

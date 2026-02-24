@@ -24,7 +24,7 @@ export default async function HomePage() {
 			<Hero />
 
 			<section className='max-w-7xl mx-auto px-6 py-20'>
-				<div className='flex flex-col md:flex-row justify-between items-end mb-16 gap-4'>
+				<div className='flex flex-col md:flex-row md:items-end justify-between items-center mb-16 gap-4'>
 					<div>
 						<span className='text-[10px] uppercase tracking-[0.3em] text-gray-400 font-bold'>
 							Selección Exclusiva
