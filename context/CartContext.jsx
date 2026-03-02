@@ -13,6 +13,7 @@ export function CartProvider({ children }) {
 		if (saved) {
 			try {
 				const parsed = JSON.parse(saved);
+				// eslint-disable-next-line react-hooks/set-state-in-effect
 				setCart(() => parsed);
 			} catch (e) {
 				console.error('Error en ZÁLEA Cart:', e);
@@ -21,7 +22,6 @@ export function CartProvider({ children }) {
 		setIsLoaded(true);
 	}, []);
 
-	// 2. Persistencia automática
 	useEffect(() => {
 		if (isLoaded) {
 			localStorage.setItem('zalea_cart', JSON.stringify(cart));

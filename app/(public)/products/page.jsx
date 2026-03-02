@@ -94,7 +94,7 @@ export default function ProductsPage() {
         ) : (
           <div className="text-center py-20">
             <p className="text-sm font-light italic text-black/40">
-              No se encontraron piezas en "{activeCategory}".
+              No se encontraron piezas en &quot;{activeCategory}&quot;.
             </p>
           </div>
         )}

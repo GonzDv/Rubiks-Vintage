@@ -1,9 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
-import { Camera, Tag, Package, Loader2, Info, Plus } from "lucide-react";
+import { Camera, Tag, Package, Loader2, Info, Plus, Sparkles, Truck, ShieldCheck } from "lucide-react";
 import NotificationSuccess from "@/components/admin/NotificationSuccess";
 import Image from "next/image";
+
 export default function InventoryPage() {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -23,9 +24,7 @@ export default function InventoryPage() {
         .from('categories')
         .select('id, name')
         .order('name', { ascending: true });
-      console.log("Categorías cargadas:", data);
       if (data) setCategories(data);
-      if (error) console.error("Error cargando categorías:", error.message);
     };
     getCategories();
   }, []);
@@ -41,7 +40,6 @@ export default function InventoryPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.category_id) return alert("Por favor elige una categoría");
-    
     setLoading(true);
 
     try {
@@ -77,6 +75,7 @@ export default function InventoryPage() {
       setShowSuccess(true);
       setFormData({ name: "", description: "", base_price: "", category_id: "" });
       setPreviewUrl(null);
+      setTimeout(() => setShowSuccess(false), 3000);
     } catch (error) {
       alert("Error: " + error.message);
     } finally {
@@ -85,178 +84,110 @@ export default function InventoryPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="max-w-6xl mx-auto space-y-10">
       {showSuccess && <NotificationSuccess />}
-      {/* Header de la página */}
-      <header className="mb-10">
-        <h1 className="text-3xl font-serif text-black italic">Gestión de Inventario</h1>
-        <p className="text-sm text-gray-500 mt-2 font-light tracking-wide uppercase">Añade nuevas piezas a la colección Rubik&apos;s Vintage</p>
+      
+      <header className="space-y-2 text-center lg:text-left">
+        <h1 className="text-3xl md:text-4xl font-serif text-black italic">Gestión de Inventario</h1>
+        <p className="text-[10px] uppercase tracking-[0.3em] text-black/40 font-bold">Añade nuevas piezas a la colección</p>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         
-        {/* SECCIÓN A: FORMULARIO (8 columnas en desktop) */}
-        <section className="lg:col-span-8 space-y-8">
-          <form onSubmit={handleSubmit} className="bg-white p-6 sm:p-10 rounded-2xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
+        {/* SECCIÓN A: FORMULARIO */}
+        <section className="lg:col-span-7 order-2 lg:order-1">
+          <form onSubmit={handleSubmit} className="bg-white p-6 md:p-10 rounded-3xl shadow-sm border border-black/5 space-y-8">
             
-            <div className="flex items-center gap-3 mb-8 pb-4 border-b border-gray-50">
-              <Plus className="text-black" size={24} />
-              <h2 className="text-lg font-medium text-gray-900 tracking-tight">Detalles de la Nueva Pieza</h2>
+            <div className="flex items-center gap-3 border-b border-black/5 pb-6">
+              <Plus className="text-[#A07F3A]" size={20} />
+              <h2 className="text-xs uppercase tracking-[0.2em] font-bold text-black">Detalles de la Nueva Pieza</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-              
-              {/* Carga de Imagen - Span full on mobile */}
-              <div className="md:col-span-2">
-                <label className="block text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-3 font-semibold">Fotografía del Producto</label>
-                <div className="group relative w-full h-64 border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center hover:border-black hover:bg-gray-50/50 transition-all cursor-pointer overflow-hidden">
+            <div className="space-y-8">
+              {/* Carga de Imagen: Aspecto adaptable */}
+              <div className="space-y-3">
+                <label className="text-[9px] uppercase tracking-widest text-black/40 font-bold">Fotografía del Producto</label>
+                <div className="group relative w-full aspect-video md:aspect-[3/4] border-2 border-dashed border-black/5 rounded-2xl flex flex-col items-center justify-center hover:bg-[#F9F8F6] transition-all cursor-pointer overflow-hidden">
                   {previewUrl ? (
-                    <Image src={previewUrl} fill unoptimized className="object-cover transition-transform duration-500 group-hover:scale-105" alt="Preview" />
+                    <Image src={previewUrl} fill unoptimized className="object-cover" alt="Preview" />
                   ) : (
-                    <div className="text-center text-gray-400 p-6">
-                      <div className="bg-gray-50 p-4 rounded-full inline-block mb-3 group-hover:bg-white transition-colors">
-                        <Camera className="mx-auto" size={28} />
+                    <div className="text-center">
+                      <div className="bg-[#F5F1EB] p-4 rounded-full inline-block mb-3">
+                        <Camera className="text-[#A07F3A]" size={24} />
                       </div>
-                      <p className="text-[11px] uppercase tracking-widest font-medium text-gray-500">Arrastra o haz clic para subir</p>
-                      <p className="text-[10px] text-gray-400 mt-1 font-light italic">Recomendado: 3:4 ratio, fondo neutro</p>
+                      <p className="text-[10px] uppercase tracking-widest font-bold text-black/40">Haz clic para subir</p>
                     </div>
                   )}
                   <input type="file" accept="image/*" onChange={handleImageChange} className="absolute inset-0 opacity-0 cursor-pointer z-10" />
                 </div>
               </div>
 
-              {/* Input Nombre */}
-              <div className="space-y-1">
-                <label className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold flex items-center gap-2">
-                  <Package size={12} /> Nombre de la pieza
-                </label>
-                <input 
-                  type="text" 
-                  required
-                  placeholder="Ej. Collar Oro Laminado"
-                  className="w-full border-b border-gray-200 py-3 focus:border-black outline-none transition bg-transparent text-sm placeholder:text-gray-300 placeholder:italic"
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                />
-              </div>
-
-              {/* Select Categoría */}
-              <div className="space-y-1">
-                <label className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold flex items-center gap-2">
-                  <Tag size={12} /> Categoría
-                </label>
-                <div className="relative">
-                  <select 
-                    required
-                    className="w-full border-b border-gray-200 py-3 focus:border-black outline-none bg-transparent cursor-pointer appearance-none text-sm pr-10"
-                    value={formData.category_id}
-                    onChange={(e) => setFormData({...formData, category_id: e.target.value})}
-                  >
-                    <option value="" disabled>Seleccionar...</option>
-                    {categories.map((cat) => (
-                      <option key={cat.id} value={cat.id}>{cat.name}</option>
-                    ))}
-                  </select>
-                  <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                    <Plus size={14} className="rotate-45" />
-                  </div>
+              {/* Grid de Inputs: Stack en móvil, 2 cols en tablet+ */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <label className="text-[9px] uppercase tracking-widest text-black/40 font-bold flex items-center gap-2">
+                    <Package size={12} /> Nombre
+                  </label>
+                  <input type="text" required placeholder="Ej. Collar Oro Laminado" className="w-full border-b border-black/10 py-2 focus:border-[#C4A95E] outline-none transition bg-transparent text-sm italic" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
                 </div>
-              </div>
 
-              {/* Input Precio */}
-              <div className="space-y-1">
-                <label className="text-[10px] uppercase tracking-[0.2em] text-black font-bold flex items-center gap-2">
-                  $ Precio Base (MXN)
-                </label>
-                <input 
-                  type="number" 
-                  required
-                  placeholder="0.00"
-                  className="w-full border-b border-gray-200 py-3 focus:border-black outline-none transition bg-transparent font-serif text-2xl text-black placeholder:text-gray-200"
-                  value={formData.base_price}
-                  onChange={(e) => setFormData({...formData, base_price: e.target.value})}
-                />
-              </div>
+                <div className="space-y-2">
+                  <label className="text-[9px] uppercase tracking-widest text-black/40 font-bold flex items-center gap-2">
+                    <Tag size={12} /> Categoría
+                  </label>
+                  <select required className="w-full border-b border-black/10 py-2 focus:border-[#C4A95E] outline-none bg-transparent text-sm cursor-pointer appearance-none" value={formData.category_id} onChange={(e) => setFormData({...formData, category_id: e.target.value})}>
+                    <option value="" disabled>Seleccionar...</option>
+                    {categories.map((cat) => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
+                  </select>
+                </div>
 
-              {/* Input Descripción */}
-              <div className="md:col-span-2 space-y-1 mt-4">
-                <label className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold flex items-center gap-2">
-                  <Info size={12} /> Descripción / Detalles
-                </label>
-                <textarea 
-                  rows="3"
-                  placeholder="Detalles únicos, medidas o cuidados especiales..."
-                  className="w-full border border-gray-100 rounded-lg p-4 focus:border-black focus:ring-1 focus:ring-black/5 outline-none transition bg-gray-50/30 text-sm placeholder:text-gray-300 resize-none"
-                  value={formData.description}
-                  onChange={(e) => setFormData({...formData, description: e.target.value})}
-                />
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-[9px] uppercase tracking-widest text-black font-bold flex items-center gap-2">
+                    $ Precio Base (MXN)
+                  </label>
+                  <input type="number" required placeholder="0.00" className="w-full border-b border-black/10 py-3 focus:border-[#C4A95E] outline-none transition bg-transparent font-serif text-3xl text-black" value={formData.base_price} onChange={(e) => setFormData({...formData, base_price: e.target.value})} />
+                </div>
+
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-[9px] uppercase tracking-widest text-black/40 font-bold flex items-center gap-2">
+                    <Info size={12} /> Descripción
+                  </label>
+                  <textarea rows="3" placeholder="Detalles únicos..." className="w-full border border-black/5 rounded-xl p-4 focus:border-[#C4A95E] outline-none bg-[#F9F8F6] text-sm italic font-light resize-none" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} />
+                </div>
               </div>
             </div>
 
-            <button 
-              type="submit"
-              disabled={loading}
-              className="mt-12 w-full bg-black text-white py-5 text-[11px] uppercase tracking-[0.3em] font-bold flex items-center justify-center gap-3 hover:bg-[#1A1A1A] active:scale-[0.98] transition-all disabled:bg-gray-200 disabled:cursor-not-allowed shadow-xl shadow-black/10"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="animate-spin" size={18} />
-                  <span>Subiendo Tesoro...</span>
-                </>
-              ) : (
-                "Publicar en la Tienda"
-              )}
+            <button type="submit" disabled={loading} className="w-full bg-black text-white py-5 text-[10px] uppercase tracking-[0.4em] font-bold flex items-center justify-center gap-3 hover:bg-[#A07F3A] transition-all disabled:bg-black/20 shadow-xl shadow-black/10">
+              {loading ? <><Loader2 className="animate-spin" size={16} /> Subiendo...</> : "Publicar en la Tienda"}
             </button>
           </form>
         </section>
 
-        {/* SECCIÓN B: VISTA PREVIA (4 columnas en desktop, Sticky) */}
-        <aside className="lg:col-span-4 lg:sticky lg:top-24">
-          <div className="bg-[#F9F8F6] p-8 rounded-2xl border border-gray-100">
-            <h2 className="text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-8 font-bold border-b border-gray-200 pb-2">
-              Previsualización de Catálogo
-            </h2>
+        {/* SECCIÓN B: PREVISUALIZACIÓN */}
+        <aside className="lg:col-span-5 order-1 lg:order-2 lg:sticky lg:top-8">
+          <div className="bg-[#F9F8F6] p-6 md:p-10 rounded-3xl border border-black/5 space-y-8">
+            <h2 className="text-[9px] uppercase tracking-[0.4em] text-black/30 font-bold text-center">Vista previa del Bazar</h2>
             
-            <div className="group bg-white p-4 shadow-sm rounded-lg">
-              <div className="aspect-3/4 bg-gray-50 mb-6 overflow-hidden relative rounded-md">
-                {previewUrl ? (
-                  <Image src={previewUrl} fill unoptimized className="object-cover" alt="Preview" />
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center bg-[#F9F8F6] p-4 text-center">
-                    <p className="text-[10px] text-gray-300 uppercase italic tracking-widest">Esperando imagen</p>
-                  </div>
-                )}
+            <div className="max-w-[280px] mx-auto bg-white p-4 rounded-2xl shadow-sm border border-black/5">
+              <div className="relative aspect-[3/4] bg-[#F5F1EB] rounded-xl overflow-hidden mb-6">
+                {previewUrl ? <Image src={previewUrl} fill unoptimized className="object-cover" alt="Preview" /> : <div className="w-full h-full flex items-center justify-center italic text-black/10 text-[10px]">Sin imagen</div>}
               </div>
-              
-              <div className="space-y-3">
-                <div className="flex justify-between items-start gap-4">
-                  <h3 className="text-sm font-medium text-black uppercase tracking-wider leading-tight">
-                    {formData.name || "Nombre de la Pieza"}
-                  </h3>
-                  <p className="text-xs font-bold text-gray-900">
-                    ${formData.base_price ? parseFloat(formData.base_price).toLocaleString() : "0.00"}
-                  </p>
-                </div>
-                
-                <p className="text-[10px] text-gray-400 font-light leading-relaxed line-clamp-3">
-                  {formData.description || "Aquí aparecerá la descripción de tu pieza. Intenta ser descriptivo para captar la atención del cliente."}
-                </p>
-
-                <div className="pt-4 mt-2 border-t border-gray-50">
-                   <div className="inline-block px-2 py-1 bg-black text-[8px] text-white uppercase tracking-widest font-bold rounded">
-                    {categories.find(c => c.id === formData.category_id)?.name || "Categoría"}
-                   </div>
+              <div className="space-y-2 text-center">
+                <h3 className="text-[11px] uppercase tracking-widest font-bold text-black truncate">{formData.name || "Nombre de la Pieza"}</h3>
+                <p className="text-sm font-serif italic text-[#A07F3A]">${formData.base_price ? parseFloat(formData.base_price).toLocaleString() : "0.00"}</p>
+                <div className="pt-3 border-t border-black/5 flex justify-center gap-4">
+                   <Truck size={14} className="text-black/10" />
+                   <ShieldCheck size={14} className="text-black/10" />
                 </div>
               </div>
             </div>
 
-            <div className="mt-6 flex items-center gap-2 text-gray-400 text-[10px] italic">
-              <Info size={12} />
-              <span>Así es como tus clientes verán el producto en el bazar.</span>
+            <div className="bg-white/50 p-4 rounded-xl flex items-center gap-3 border border-black/5">
+              <Sparkles size={16} className="text-[#C4A95E]" />
+              <p className="text-[9px] text-black/40 italic leading-tight">Así se verá tu pieza en la colección principal de ZÁLEA.</p>
             </div>
           </div>
         </aside>
-
       </div>
     </div>
   );

@@ -9,8 +9,7 @@ export default function CartSidebar({ isOpen, onClose }) {
 	if (!isOpen) return null;
 
 	return (
-		<div className='fixed inset-0 z-[100] flex justify-end'>
-			{/* Overlay oscuro suave */}
+		<div className='fixed inset-0 z-100 flex justify-end'>
 			<div
 				className='absolute inset-0 bg-black/40 backdrop-blur-sm'
 				onClick={onClose}
@@ -46,7 +45,7 @@ export default function CartSidebar({ isOpen, onClose }) {
 								key={item.id}
 								className='flex gap-4 items-center group'
 							>
-								<div className='relative w-20 h-24 bg-white rounded-lg overflow-hidden flex-shrink-0 shadow-sm'>
+								<div className='relative w-20 h-24 bg-white rounded-lg overflow-hidden shrink-0 shadow-sm'>
 									<Image
 										src={item.image_url}
 										alt={item.name}

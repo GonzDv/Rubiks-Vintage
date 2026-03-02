@@ -1,12 +1,15 @@
 import Navbar from "@/components/public/Navbar";
+import AnnouncementBar from "@/components/public/AnnouncementBar";
 
 export default function PublicLayout({ children }) {
   return (
-    <div className="flex flex-col min-h-scree">
+    <div className="flex flex-col min-h-screen">
+
 
       <Navbar />
+      <AnnouncementBar />
 
-      <main className="flex-grow bg-[#f0ede9]">
+      <main className="grow bg-[#f0ede9]">
         {children}
       </main>
 
@@ -14,7 +17,7 @@ export default function PublicLayout({ children }) {
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="text-center md:text-left">
             <h3 className="font-serif italic text-xl">
-              Rubik's <span className="text-gray-400 not-italic">Vintage</span>
+              Rubik&apos;s <span className="text-gray-400 not-italic">Vintage</span>
             </h3>
             <p className="text-[10px] uppercase tracking-widest text-gray-400 mt-2">
               Joyas con historia, elegancia para hoy.
@@ -28,7 +31,7 @@ export default function PublicLayout({ children }) {
           </div>
 
           <p className="text-[10px] text-gray-400">
-            © {new Date().getFullYear()} Rubik's Vintage. Todos los derechos reservados.
+            © {new Date().getFullYear()} Rubik&apos;s Vintage. Todos los derechos reservados.
           </p>
         </div>
       </footer>
