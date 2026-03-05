@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/utils/supabase/client"
 import Link from "next/link";
 import {
   ShoppingBag,
@@ -18,6 +18,7 @@ import { useCart } from "@/context/CartContext";
 import CartSidebar from "./CartSidebar";
 
 export default function Navbar() {
+  const supabase = createClient();
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);

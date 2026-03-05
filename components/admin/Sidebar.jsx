@@ -11,9 +11,10 @@ import {
   X,
   Home 
 } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/utils/supabase/client"
 
 export default function Sidebar({ onClose }) {
+  const supabase = createClient();
   const pathname = usePathname();
 
   const handleLogout = async () => {

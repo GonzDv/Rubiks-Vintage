@@ -1,10 +1,11 @@
 "use client";
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { Loader2, ArrowRight } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
 
 export default function LoginPage() {
+  const supabase = createClient();
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
