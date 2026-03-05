@@ -10,7 +10,8 @@
 }
 
 body {
-  background-color: var(--sand); /* El color crema de fondo */
+  background-color: var(--sand);
+  /* El color crema de fondo */
   color: var(--charcoal);
 }
 
@@ -23,3 +24,13 @@ body {
 
 
 
+/* Oculta el ojo nativo de contraseña en todos los browsers */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear,
+input[type="password"]::-webkit-credentials-auto-fill-button {
+  display: none;
+}
+
+input::-webkit-password-toggle {
+  display: none;
+}

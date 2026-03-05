@@ -1,40 +1,56 @@
-import Navbar from "@/components/public/Navbar";
-import AnnouncementBar from "@/components/public/AnnouncementBar";
+import Navbar from '@/components/public/Navbar';
+import AnnouncementBar from '@/components/public/AnnouncementBar';
 
 export default function PublicLayout({ children }) {
-  return (
-    <div className="flex flex-col min-h-screen">
+	return (
+		<div className='flex flex-col min-h-screen'>
+			<AnnouncementBar />
+			<Navbar />
 
+			<main className='grow bg-[#F0EDE9]'>{children}</main>
 
-      <Navbar />
-      <AnnouncementBar />
+			<footer className='border-t border-black/5 py-12 bg-[#F9F8F6]'>
+				<div className='max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8'>
+					{/* Marca */}
+					<div className='text-center md:text-left'>
+						<h3 className='font-serif italic text-xl text-black'>
+							ZÁLEA
+						</h3>
+						<p className='text-[10px] uppercase tracking-widest text-black/30 mt-1'>
+							Joyas con historia, elegancia para
+							hoy.
+						</p>
+					</div>
 
-      <main className="grow bg-[#f0ede9]">
-        {children}
-      </main>
+					{/* Links */}
+					<div className='flex gap-8 text-[10px] uppercase tracking-widest text-black/40 font-medium'>
+						<a
+							href='#'
+							className='hover:text-black transition-colors'
+						>
+							Instagram
+						</a>
+						<a
+							href='#'
+							className='hover:text-black transition-colors'
+						>
+							Términos
+						</a>
+						<a
+							href='#'
+							className='hover:text-black transition-colors'
+						>
+							Contacto
+						</a>
+					</div>
 
-      <footer className="border-t border-gray-100 py-12 bg-[#F9F8F6]/80">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="text-center md:text-left">
-            <h3 className="font-serif italic text-xl">
-              Rubik&apos;s <span className="text-gray-400 not-italic">Vintage</span>
-            </h3>
-            <p className="text-[10px] uppercase tracking-widest text-gray-400 mt-2">
-              Joyas con historia, elegancia para hoy.
-            </p>
-          </div>
-
-          <div className="flex gap-8 text-[10px] uppercase tracking-widest text-gray-500 font-medium">
-            <a href="#" className="hover:text-black transition">Instagram</a>
-            <a href="#" className="hover:text-black transition">Términos</a>
-            <a href="#" className="hover:text-black transition">Contacto</a>
-          </div>
-
-          <p className="text-[10px] text-gray-400">
-            © {new Date().getFullYear()} Rubik&apos;s Vintage. Todos los derechos reservados.
-          </p>
-        </div>
-      </footer>
-    </div>
-  );
+					{/* Copyright */}
+					<p className='text-[10px] text-black/25 text-center md:text-right'>
+						© {new Date().getFullYear()} ZÁLEA. Todos
+						los derechos reservados.
+					</p>
+				</div>
+			</footer>
+		</div>
+	);
 }

@@ -1,46 +1,56 @@
-"use client";
+'use client';
 import { Bell, Search, User, Home } from 'lucide-react';
 import Link from 'next/link';
+
 export default function AdminNavbar() {
-  return (
-    <header className="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-10 sticky top-0 z-40">
-  
-        <div className="absolute inset-y-0 left-0 flex items-center mr-6">
+	return (
+		<header className='h-16 bg-white border-b border-black/5 flex items-center justify-between px-6 sticky top-0 z-40 shrink-0'>
+			{/* IZQUIERDA: Home */}
+			<Link
+				href='/'
+				className='p-2 rounded-full hover:bg-[#F5F1EB] transition-colors text-black/30 hover:text-black'
+			>
+				<Home size={18} strokeWidth={1.5} />
+			</Link>
 
-          <Link href="/" className="ml-15">
-          <Home className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition-colors" size={16} />
-          </Link>
-        </div>
-      <div className="relative w-96 flex items-center gap-5">
-        <div className=" w-full ml-15">
+			{/* CENTRO: Buscador */}
+			<div className='flex-1 max-w-sm mx-6'>
+				<div className='relative'>
+					<Search
+						size={14}
+						className='absolute left-3 top-1/2 -translate-y-1/2 text-black/20'
+					/>
+					<input
+						type='text'
+						placeholder='Buscar pedidos, productos...'
+						className='w-full bg-[#F5F1EB] border-none rounded-full py-2 pl-9 pr-4 text-xs focus:outline-none focus:ring-1 focus:ring-[#C4A95E] transition'
+					/>
+				</div>
+			</div>
 
-        <Search className="absolute left-10 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-        <input 
-          type="text" 
-          placeholder="Buscar pedidos, productos..." 
-          className="w-full bg-gray-50 border-none rounded-full py-2 pl-3 pr-4 text-xs focus:ring-1 focus:ring-black transition"
-        />
-        </div>
-      </div>
+			{/* DERECHA: Notificaciones + Perfil */}
+			<div className='flex items-center gap-4 text-black/30'>
+				<button className='relative p-2 hover:text-black hover:bg-[#F5F1EB] rounded-full transition-colors'>
+					<Bell size={18} strokeWidth={1.5} />
+					<span className='absolute top-1.5 right-1.5 bg-red-500 w-1.5 h-1.5 rounded-full border border-white' />
+				</button>
 
-      <div className="flex items-center gap-6 text-gray-500">
-        <button className="relative hover:text-black transition">
-          <Bell size={20} strokeWidth={1.5} />
-          <span className="absolute -top-1 -right-1 bg-red-500 w-2 h-2 rounded-full border-2 border-white"></span>
-        </button>
-        
-        <div className="h-8 w-px bg-gray-100 mx-2"></div>
+				<div className='h-6 w-px bg-black/5' />
 
-        <div className="flex items-center gap-3 cursor-pointer hover:opacity-70 transition">
-          <div className="text-right">
-            <p className="text-[10px] font-bold text-black uppercase tracking-widest">Admin</p>
-            <p className="text-[9px] text-gray-400">Rubik&apos;s Vintage</p>
-          </div>
-          <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center border border-gray-200">
-            <User size={20} className="text-gray-400" />
-          </div>
-        </div>
-      </div>
-    </header>
-  );
+				<div className='flex items-center gap-2 cursor-pointer hover:opacity-70 transition'>
+					<div className='text-right hidden md:block'>
+						<p className='text-[10px] font-bold text-black uppercase tracking-widest'>
+							Admin
+						</p>
+						<p className='text-[9px] text-black/30'>
+							ZÁLEA
+						</p>
+					</div>
+					<div className='w-8 h-8 bg-[#F5F1EB] rounded-full flex items-center justify-center border border-black/5'>
+						<User size={16} className='text-black/30' />
+					</div>
+				</div>
+			</div>
+		</header>
+	);
 }
