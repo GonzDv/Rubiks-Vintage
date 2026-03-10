@@ -25,7 +25,9 @@ export default function PublicLayout({ children }) {
 					{/* Links */}
 					<div className='flex gap-8 text-[10px] uppercase tracking-widest text-black/40 font-medium'>
 						<a
-							href='#'
+							href='https://www.instagram.com/zalea.jewelry'
+							target='_blank'
+							rel='noopener noreferrer'
 							className='hover:text-black transition-colors'
 						>
 							Instagram

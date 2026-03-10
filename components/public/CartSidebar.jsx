@@ -179,6 +179,7 @@ export default function CartSidebar({ isOpen, onClose }) {
 
 					<Link
 						href='/checkout'
+						onClick={onClose}
 						className='w-full bg-black text-white py-5 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-[#A07F3A] transition-all flex items-center justify-center gap-3'
 					>
 						Finalizar Compra

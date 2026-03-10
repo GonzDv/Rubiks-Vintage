@@ -33,7 +33,7 @@ export default function Navbar() {
 			const {
 				data: { user },
 			} = await supabase.auth.getUser();
-			setUser(user ?? null); // directo, sin currentUser intermedio
+			setUser(user ?? null);
 
 			if (user) {
 				const { data: profile } = await supabase
@@ -90,7 +90,6 @@ export default function Navbar() {
 
 	const navLinks = [
 		{ name: 'Colección', href: '/products' },
-		{ name: 'Novedades', href: '/new' },
 		{ name: 'Nosotros', href: '/about' },
 	];
 
@@ -264,7 +263,6 @@ export default function Navbar() {
 			{/* MOBILE DRAWER: Menú lateral animado */}
 			{isMobileMenuOpen && (
 				<div className='fixed inset-0 z-100 md:hidden'>
-					{/* Overlay oscuro */}
 					<div
 						className='absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity'
 						onClick={() => setIsMobileMenuOpen(false)}

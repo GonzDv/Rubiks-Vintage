@@ -44,9 +44,9 @@ export async function GET(request) {
         stripe_payment_intent: session.payment_intent,
         customer_email: session.customer_email,
         customer_name: session.metadata.customer_name,
-        shipping_address: session.metadata.shipping_address,
         phone: session.metadata.customer_phone,
         notes: session.metadata.notes,
+        shipping_address: session.metadata.shipping_address,
       }])
       .select()
       .single();

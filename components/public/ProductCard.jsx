@@ -15,7 +15,7 @@ export default function ProductCard({ product }) {
 				onClick={() => setShowModal(true)}
 			>
 				{/* IMAGEN */}
-				<div className='relative aspect-[3/4] bg-[#F5F1EB] overflow-hidden rounded-2xl mb-4 shadow-sm border border-black/5'>
+				<div className='relative aspect-3/4 bg-[#F5F1EB] overflow-hidden rounded-2xl mb-4 shadow-sm border border-black/5'>
 					{imgError || !product.image_url ? (
 						// Fallback si la imagen falla
 						<div className='w-full h-full flex items-center justify-center text-black/10'>

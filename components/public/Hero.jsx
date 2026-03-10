@@ -134,7 +134,7 @@ export default function Hero() {
 				</div>
 
 				{/* Franja vertical decorativa */}
-				<div className='absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-[#A07F3A]/20 to-transparent' />
+				<div className='absolute left-0 top-0 bottom-0 w-1 bg-linear-to-b from-transparent via-[#A07F3A]/20 to-transparent' />
 			</div>
 		</section>
 	);
