@@ -57,7 +57,8 @@ export async function GET(request) {
     const items = JSON.parse(session.metadata.items);
     const itemsToInsert = items.map((item) => ({
       order_id: order.id,
-      variant_id: null, // ajustar si usas variantes
+      variant_id: null,
+      product_id: item.id,
       quantity: item.quantity,
       unit_price: item.unit_price,
     }));

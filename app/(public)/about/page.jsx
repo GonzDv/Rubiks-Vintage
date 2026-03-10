@@ -62,15 +62,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── LÍNEA DIVISORIA ──────────────────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-6">
         <div className="w-full h-px bg-black/5" />
       </div>
 
-      {/* ── MARCA ────────────────────────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-6 py-24 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-        {/* Texto */}
         <div className="space-y-8">
           <div>
             <span className="text-[10px] uppercase tracking-[0.4em] text-[#C4A95E] font-bold">
@@ -99,7 +96,6 @@ export default function AboutPage() {
           </a>
         </div>
 
-        {/* Stats en grid */}
         <div className="grid grid-cols-2 gap-4">
           {STATS.map((stat) => (
             <div key={stat.label} className="bg-white rounded-2xl p-8 border border-black/5 shadow-sm">
@@ -110,7 +106,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── VALORES ──────────────────────────────────────────────────── */}
       <section className="bg-[#1A1A1A] py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-16">
@@ -136,7 +131,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── CTA FINAL ────────────────────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-6 py-24 flex flex-col md:flex-row items-center justify-between gap-8">
         <div>
           <h2 className="text-3xl md:text-4xl font-serif italic text-black">

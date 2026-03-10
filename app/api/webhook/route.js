@@ -73,6 +73,7 @@ export async function POST(request) {
     const itemsToInsert = items.map((item) => ({
       order_id: order.id,
       variant_id: null,
+      product_id: item.id,
       quantity: item.quantity,
       unit_price: item.unit_price,
     }));
