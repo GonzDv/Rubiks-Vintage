@@ -21,6 +21,7 @@ const STATUS_STYLES = {
 	entregado: { label: 'Entregado', classes: 'bg-black/5 text-black/50' },
 	cancelado: { label: 'Cancelado', classes: 'bg-red-50 text-red-400' },
 };
+
 export const dynamic = 'force-dynamic';
 export default function OrdersPage() {
 	const supabase = createClient();

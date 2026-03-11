@@ -1,282 +1,497 @@
-"use client";
-import { useState, useEffect } from "react";
-import { useCart } from "@/context/CartContext";
-import { useRouter } from "next/navigation";
-import { createClient } from "@/utils/supabase/client";
-import Image from "next/image";
+'use client';
+import { useState, useEffect } from 'react';
+import { useCart } from '@/context/CartContext';
+import { useRouter } from 'next/navigation';
+import { createClient } from '@/utils/supabase/client';
+import Image from 'next/image';
 import {
-  Loader2, ShoppingBag, User, Phone, MapPin, FileText,
-  Lock, ImageOff, Check
-} from "lucide-react";
-
+	Loader2,
+	ShoppingBag,
+	User,
+	Phone,
+	MapPin,
+	FileText,
+	Lock,
+	ImageOff,
+	Check,
+} from 'lucide-react';
+export const dynamic = 'force-dynamic';
 export default function CheckoutPage() {
-  const { cart, cartTotal, clearCart } = useCart();
-  const router = useRouter();
-  const supabase = createClient();
-  const [loading, setLoading] = useState(false);
-  const [prefilling, setPrefilling] = useState(true);
-  const [error, setError] = useState(null);
-  const [prefilled, setPrefilled] = useState(false);
-  const [formData, setFormData] = useState({
-    fullName: "",
-    phone: "",
-    address: "",
-    notes: "",
-  });
+	const { cart, cartTotal, clearCart } = useCart();
+	const router = useRouter();
+	const supabase = createClient();
+	const [loading, setLoading] = useState(false);
+	const [prefilling, setPrefilling] = useState(true);
+	const [error, setError] = useState(null);
+	const [prefilled, setPrefilled] = useState(false);
+	const [formData, setFormData] = useState({
+		fullName: '',
+		phone: '',
+		address: '',
+		notes: '',
+	});
 
-  // Prellenar con datos del usuario guardados en /account
-  useEffect(() => {
-    const prefillFromAccount = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { router.push("/login"); return; }
+	// Prellenar con datos del usuario guardados en /account
+	useEffect(() => {
+		const prefillFromAccount = async () => {
+			const {
+				data: { user },
+			} = await supabase.auth.getUser();
+			if (!user) {
+				router.push('/login');
+				return;
+			}
 
-      const meta = user.user_metadata || {};
-      const wasPreFilled = meta.first_name || meta.default_address;
+			const meta = user.user_metadata || {};
+			const wasPreFilled = meta.first_name || meta.default_address;
 
-      setFormData((prev) => ({
-        ...prev,
-        fullName: meta.full_name || `${meta.first_name || ""} ${meta.last_name || ""}`.trim(),
-        address: meta.default_address || "",
-      }));
+			setFormData((prev) => ({
+				...prev,
+				fullName:
+					meta.full_name ||
+					`${meta.first_name || ''} ${meta.last_name || ''}`.trim(),
+				address: meta.default_address || '',
+			}));
 
-      if (wasPreFilled) setPrefilled(true);
-      setPrefilling(false);
-    };
-    prefillFromAccount();
-  }, []);
+			if (wasPreFilled) setPrefilled(true);
+			setPrefilling(false);
+		};
+		prefillFromAccount();
+	}, []);
 
-  // Carrito vacío
-  if (cart.length === 0) {
-    return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center text-black/30 space-y-4 bg-[#F5F1EB]">
-        <ShoppingBag size={48} strokeWidth={0.5} />
-        <p className="text-[10px] uppercase tracking-[0.3em]">Tu bolsa está vacía</p>
-        <button
-          onClick={() => router.push("/")}
-          className="text-[10px] uppercase tracking-[0.3em] text-[#A07F3A] hover:underline mt-2"
-        >
-          Explorar colección
-        </button>
-      </div>
-    );
-  }
+	// Carrito vacío
+	if (cart.length === 0) {
+		return (
+			<div className='min-h-[70vh] flex flex-col items-center justify-center text-black/30 space-y-4 bg-[#F5F1EB]'>
+				<ShoppingBag size={48} strokeWidth={0.5} />
+				<p className='text-[10px] uppercase tracking-[0.3em]'>
+					Tu bolsa está vacía
+				</p>
+				<button
+					onClick={() => router.push('/')}
+					className='text-[10px] uppercase tracking-[0.3em] text-[#A07F3A] hover:underline mt-2'
+				>
+					Explorar colección
+				</button>
+			</div>
+		);
+	}
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		setLoading(true);
+		setError(null);
 
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { router.push("/login"); return; }
+		try {
+			const {
+				data: { user },
+			} = await supabase.auth.getUser();
+			if (!user) {
+				router.push('/login');
+				return;
+			}
 
-      const response = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items: cart.map((item) => ({ id: item.id, quantity: item.quantity })),
-          customerData: formData,
-        }),
-      });
+			const response = await fetch('/api/checkout', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					items: cart.map((item) => ({
+						id: item.id,
+						quantity: item.quantity,
+					})),
+					customerData: formData,
+				}),
+			});
 
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
+			const data = await response.json();
+			if (!response.ok) throw new Error(data.error);
 
-      window.location.href = data.url;
-    } catch (err) {
-      setError(err.message || "Ocurrió un error, intenta de nuevo.");
-      setLoading(false);
-    }
-  };
+			window.location.href = data.url;
+		} catch (err) {
+			setError(
+				err.message || 'Ocurrió un error, intenta de nuevo.',
+			);
+			setLoading(false);
+		}
+	};
 
-  return (
-    <div className="min-h-screen bg-[#F5F1EB] py-12 px-4">
-      <div className="max-w-5xl mx-auto">
+	return (
+		<div className='min-h-screen bg-[#F5F1EB] py-12 px-4'>
+			<div className='max-w-5xl mx-auto'>
+				{/* Header */}
+				<div className='text-center mb-12'>
+					<h1 className='text-4xl font-serif italic text-black'>
+						Finalizar Pedido
+					</h1>
+					<p className='text-[10px] uppercase tracking-[0.4em] text-black/30 mt-2'>
+						ZÁLEA — Colección Vintage
+					</p>
+				</div>
 
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-serif italic text-black">Finalizar Pedido</h1>
-          <p className="text-[10px] uppercase tracking-[0.4em] text-black/30 mt-2">ZÁLEA — Colección Vintage</p>
-        </div>
+				<div className='grid grid-cols-1 lg:grid-cols-12 gap-8 items-start'>
+					{/* FORMULARIO */}
+					<section className='lg:col-span-7'>
+						<form
+							onSubmit={handleSubmit}
+							className='bg-white rounded-3xl p-8 shadow-sm border border-black/5 space-y-8'
+						>
+							<div className='flex items-center justify-between border-b border-black/5 pb-6'>
+								<div className='flex items-center gap-3'>
+									<User
+										size={16}
+										className='text-[#A07F3A]'
+									/>
+									<h2 className='text-xs uppercase tracking-[0.2em] font-bold text-black'>
+										Datos de Envío
+									</h2>
+								</div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+								{/* Badge de datos prellenados */}
+								{prefilled && (
+									<div className='flex items-center gap-1.5 text-[8px] uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full font-bold'>
+										<Check
+											size={9}
+											strokeWidth={
+												2.5
+											}
+										/>
+										Datos de tu cuenta
+									</div>
+								)}
+							</div>
 
-          {/* FORMULARIO */}
-          <section className="lg:col-span-7">
-            <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-8 shadow-sm border border-black/5 space-y-8">
+							{prefilling ? (
+								<div className='flex justify-center py-8 text-black/20'>
+									<Loader2
+										className='animate-spin'
+										size={20}
+										strokeWidth={1}
+									/>
+								</div>
+							) : (
+								<div className='space-y-7'>
+									{/* Nombre */}
+									<div className='space-y-2'>
+										<label className='text-[9px] uppercase tracking-widest text-black/40 font-bold flex items-center gap-2'>
+											<User
+												size={
+													10
+												}
+											/>{' '}
+											Nombre
+											Completo
+										</label>
+										<input
+											type='text'
+											required
+											placeholder='Ej. Ana García López'
+											className='w-full border-b border-black/10 py-2 focus:border-[#C4A95E] outline-none bg-transparent text-sm'
+											value={
+												formData.fullName
+											}
+											onChange={(
+												e,
+											) =>
+												setFormData(
+													{
+														...formData,
+														fullName: e
+															.target
+															.value,
+													},
+												)
+											}
+										/>
+									</div>
 
-              <div className="flex items-center justify-between border-b border-black/5 pb-6">
-                <div className="flex items-center gap-3">
-                  <User size={16} className="text-[#A07F3A]" />
-                  <h2 className="text-xs uppercase tracking-[0.2em] font-bold text-black">Datos de Envío</h2>
-                </div>
+									{/* Teléfono */}
+									<div className='space-y-2'>
+										<label className='text-[9px] uppercase tracking-widest text-black/40 font-bold flex items-center gap-2'>
+											<Phone
+												size={
+													10
+												}
+											/>{' '}
+											Teléfono
+										</label>
+										<input
+											type='tel'
+											required
+											placeholder='Ej. 55 1234 5678'
+											className='w-full border-b border-black/10 py-2 focus:border-[#C4A95E] outline-none bg-transparent text-sm'
+											value={
+												formData.phone
+											}
+											onChange={(
+												e,
+											) =>
+												setFormData(
+													{
+														...formData,
+														phone: e
+															.target
+															.value,
+													},
+												)
+											}
+										/>
+									</div>
 
-                {/* Badge de datos prellenados */}
-                {prefilled && (
-                  <div className="flex items-center gap-1.5 text-[8px] uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full font-bold">
-                    <Check size={9} strokeWidth={2.5} />
-                    Datos de tu cuenta
-                  </div>
-                )}
-              </div>
+									{/* Dirección */}
+									<div className='space-y-2'>
+										<label className='text-[9px] uppercase tracking-widest text-black/40 font-bold flex items-center gap-2'>
+											<MapPin
+												size={
+													10
+												}
+											/>{' '}
+											Dirección de
+											Envío
+										</label>
+										<textarea
+											required
+											rows={3}
+											placeholder='Calle, número, colonia, ciudad, estado, código postal'
+											className='w-full border border-black/5 rounded-xl p-4 focus:border-[#C4A95E] outline-none bg-[#F9F8F6] text-sm resize-none'
+											value={
+												formData.address
+											}
+											onChange={(
+												e,
+											) =>
+												setFormData(
+													{
+														...formData,
+														address: e
+															.target
+															.value,
+													},
+												)
+											}
+										/>
+										{prefilled &&
+											formData.address && (
+												<p className='text-[9px] text-black/25 flex items-center gap-1'>
+													<Check
+														size={
+															9
+														}
+														strokeWidth={
+															2.5
+														}
+														className='text-emerald-400'
+													/>
+													Dirección
+													guardada
+													en
+													tu
+													cuenta
+													—
+													puedes
+													editarla
+												</p>
+											)}
+									</div>
 
-              {prefilling ? (
-                <div className="flex justify-center py-8 text-black/20">
-                  <Loader2 className="animate-spin" size={20} strokeWidth={1} />
-                </div>
-              ) : (
-                <div className="space-y-7">
+									{/* Notas */}
+									<div className='space-y-2'>
+										<label className='text-[9px] uppercase tracking-widest text-black/40 font-bold flex items-center gap-2'>
+											<FileText
+												size={
+													10
+												}
+											/>{' '}
+											Notas del
+											Pedido
+											<span className='normal-case tracking-normal text-black/20'>
+												(opcional)
+											</span>
+										</label>
+										<textarea
+											rows={2}
+											placeholder='Instrucciones especiales, referencias de entrega...'
+											className='w-full border border-black/5 rounded-xl p-4 focus:border-[#C4A95E] outline-none bg-[#F9F8F6] text-sm resize-none italic'
+											value={
+												formData.notes
+											}
+											onChange={(
+												e,
+											) =>
+												setFormData(
+													{
+														...formData,
+														notes: e
+															.target
+															.value,
+													},
+												)
+											}
+										/>
+									</div>
+								</div>
+							)}
 
-                  {/* Nombre */}
-                  <div className="space-y-2">
-                    <label className="text-[9px] uppercase tracking-widest text-black/40 font-bold flex items-center gap-2">
-                      <User size={10} /> Nombre Completo
-                    </label>
-                    <input
-                      type="text" required placeholder="Ej. Ana García López"
-                      className="w-full border-b border-black/10 py-2 focus:border-[#C4A95E] outline-none bg-transparent text-sm"
-                      value={formData.fullName}
-                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                    />
-                  </div>
+							{error && (
+								<div className='bg-red-50 border border-red-100 rounded-xl p-4 text-xs text-red-500'>
+									{error}
+								</div>
+							)}
 
-                  {/* Teléfono */}
-                  <div className="space-y-2">
-                    <label className="text-[9px] uppercase tracking-widest text-black/40 font-bold flex items-center gap-2">
-                      <Phone size={10} /> Teléfono
-                    </label>
-                    <input
-                      type="tel" required placeholder="Ej. 55 1234 5678"
-                      className="w-full border-b border-black/10 py-2 focus:border-[#C4A95E] outline-none bg-transparent text-sm"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    />
-                  </div>
+							<button
+								type='submit'
+								disabled={loading || prefilling}
+								className='w-full bg-black text-white py-5 text-[10px] uppercase tracking-[0.4em] font-bold flex items-center justify-center gap-3 hover:bg-[#A07F3A] transition-all disabled:bg-black/20'
+							>
+								{loading ? (
+									<>
+										<Loader2
+											className='animate-spin'
+											size={16}
+										/>{' '}
+										Procesando...
+									</>
+								) : (
+									<>
+										<Lock size={14} />{' '}
+										Proceder al Pago
+									</>
+								)}
+							</button>
 
-                  {/* Dirección */}
-                  <div className="space-y-2">
-                    <label className="text-[9px] uppercase tracking-widest text-black/40 font-bold flex items-center gap-2">
-                      <MapPin size={10} /> Dirección de Envío
-                    </label>
-                    <textarea
-                      required rows={3}
-                      placeholder="Calle, número, colonia, ciudad, estado, código postal"
-                      className="w-full border border-black/5 rounded-xl p-4 focus:border-[#C4A95E] outline-none bg-[#F9F8F6] text-sm resize-none"
-                      value={formData.address}
-                      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                    />
-                    {prefilled && formData.address && (
-                      <p className="text-[9px] text-black/25 flex items-center gap-1">
-                        <Check size={9} strokeWidth={2.5} className="text-emerald-400" />
-                        Dirección guardada en tu cuenta — puedes editarla
-                      </p>
-                    )}
-                  </div>
+							<div className='flex items-center justify-center gap-2 text-black/20'>
+								<Lock size={10} />
+								<p className='text-[9px] uppercase tracking-widest'>
+									Pago seguro procesado por
+									Stripe
+								</p>
+							</div>
+						</form>
+					</section>
 
-                  {/* Notas */}
-                  <div className="space-y-2">
-                    <label className="text-[9px] uppercase tracking-widest text-black/40 font-bold flex items-center gap-2">
-                      <FileText size={10} /> Notas del Pedido
-                      <span className="normal-case tracking-normal text-black/20">(opcional)</span>
-                    </label>
-                    <textarea
-                      rows={2}
-                      placeholder="Instrucciones especiales, referencias de entrega..."
-                      className="w-full border border-black/5 rounded-xl p-4 focus:border-[#C4A95E] outline-none bg-[#F9F8F6] text-sm resize-none italic"
-                      value={formData.notes}
-                      onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                    />
-                  </div>
-                </div>
-              )}
+					{/* RESUMEN DEL PEDIDO */}
+					<aside className='lg:col-span-5 lg:sticky lg:top-8 space-y-4'>
+						<div className='bg-white rounded-3xl p-6 shadow-sm border border-black/5'>
+							<div className='flex items-center gap-3 border-b border-black/5 pb-4 mb-6'>
+								<ShoppingBag
+									size={15}
+									className='text-[#A07F3A]'
+								/>
+								<h2 className='text-xs uppercase tracking-[0.2em] font-bold text-black'>
+									Tu Selección
+								</h2>
+							</div>
 
-              {error && (
-                <div className="bg-red-50 border border-red-100 rounded-xl p-4 text-xs text-red-500">
-                  {error}
-                </div>
-              )}
+							<div className='space-y-4'>
+								{cart.map((item) => (
+									<div
+										key={item.id}
+										className='flex gap-3 items-center'
+									>
+										<div className='relative w-14 h-16 rounded-lg overflow-hidden bg-[#F5F1EB] shrink-0'>
+											{item.image_url ? (
+												<Image
+													src={
+														item.image_url
+													}
+													fill
+													className='object-cover'
+													alt={
+														item.name
+													}
+												/>
+											) : (
+												<div className='w-full h-full flex items-center justify-center text-black/10'>
+													<ImageOff
+														size={
+															16
+														}
+														strokeWidth={
+															0.8
+														}
+													/>
+												</div>
+											)}
+										</div>
+										<div className='flex-1 min-w-0'>
+											<p className='text-[10px] uppercase tracking-widest font-bold text-black truncate'>
+												{
+													item.name
+												}
+											</p>
+											<p className='text-[10px] text-black/30 mt-0.5'>
+												Cantidad:{' '}
+												{
+													item.quantity
+												}
+											</p>
+										</div>
+										<p className='text-sm font-serif text-[#A07F3A] shrink-0'>
+											$
+											{(
+												item.base_price *
+												item.quantity
+											).toLocaleString(
+												'es-MX',
+											)}{' '}
+											MXN
+										</p>
+									</div>
+								))}
+							</div>
 
-              <button
-                type="submit" disabled={loading || prefilling}
-                className="w-full bg-black text-white py-5 text-[10px] uppercase tracking-[0.4em] font-bold flex items-center justify-center gap-3 hover:bg-[#A07F3A] transition-all disabled:bg-black/20"
-              >
-                {loading
-                  ? <><Loader2 className="animate-spin" size={16} /> Procesando...</>
-                  : <><Lock size={14} /> Proceder al Pago</>
-                }
-              </button>
+							<div className='border-t border-black/5 mt-6 pt-4 space-y-2'>
+								<div className='flex justify-between items-center text-[10px] text-black/30 uppercase tracking-widest'>
+									<span>Subtotal</span>
+									<span>
+										$
+										{cartTotal.toLocaleString(
+											'es-MX',
+										)}{' '}
+										MXN
+									</span>
+								</div>
+								<div className='flex justify-between items-center text-[10px] text-black/30 uppercase tracking-widest'>
+									<span>Envío</span>
+									<span>
+										Se calcula al pagar
+									</span>
+								</div>
+								<div className='flex justify-between items-center pt-2 border-t border-black/5'>
+									<span className='text-xs uppercase tracking-widest font-bold text-black'>
+										Total
+									</span>
+									<span className='text-xl font-serif text-black'>
+										$
+										{cartTotal.toLocaleString(
+											'es-MX',
+										)}{' '}
+										MXN
+									</span>
+								</div>
+							</div>
+						</div>
 
-              <div className="flex items-center justify-center gap-2 text-black/20">
-                <Lock size={10} />
-                <p className="text-[9px] uppercase tracking-widest">Pago seguro procesado por Stripe</p>
-              </div>
-            </form>
-          </section>
-
-          {/* RESUMEN DEL PEDIDO */}
-          <aside className="lg:col-span-5 lg:sticky lg:top-8 space-y-4">
-            <div className="bg-white rounded-3xl p-6 shadow-sm border border-black/5">
-              <div className="flex items-center gap-3 border-b border-black/5 pb-4 mb-6">
-                <ShoppingBag size={15} className="text-[#A07F3A]" />
-                <h2 className="text-xs uppercase tracking-[0.2em] font-bold text-black">Tu Selección</h2>
-              </div>
-
-              <div className="space-y-4">
-                {cart.map((item) => (
-                  <div key={item.id} className="flex gap-3 items-center">
-                    <div className="relative w-14 h-16 rounded-lg overflow-hidden bg-[#F5F1EB] shrink-0">
-                      {item.image_url ? (
-                        <Image src={item.image_url} fill className="object-cover" alt={item.name} />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-black/10">
-                          <ImageOff size={16} strokeWidth={0.8} />
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[10px] uppercase tracking-widest font-bold text-black truncate">{item.name}</p>
-                      <p className="text-[10px] text-black/30 mt-0.5">Cantidad: {item.quantity}</p>
-                    </div>
-                    <p className="text-sm font-serif text-[#A07F3A] shrink-0">
-                      ${(item.base_price * item.quantity).toLocaleString("es-MX")} MXN
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="border-t border-black/5 mt-6 pt-4 space-y-2">
-                <div className="flex justify-between items-center text-[10px] text-black/30 uppercase tracking-widest">
-                  <span>Subtotal</span>
-                  <span>${cartTotal.toLocaleString("es-MX")} MXN</span>
-                </div>
-                <div className="flex justify-between items-center text-[10px] text-black/30 uppercase tracking-widest">
-                  <span>Envío</span>
-                  <span>Se calcula al pagar</span>
-                </div>
-                <div className="flex justify-between items-center pt-2 border-t border-black/5">
-                  <span className="text-xs uppercase tracking-widest font-bold text-black">Total</span>
-                  <span className="text-xl font-serif text-black">${cartTotal.toLocaleString("es-MX")} MXN</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Hint para guardar dirección */}
-            {!prefilled && (
-              <p className="text-[9px] text-black/25 text-center px-4">
-                Guarda tu dirección en{" "}
-                <button
-                  type="button"
-                  onClick={() => router.push("/account")}
-                  className="text-[#A07F3A] hover:underline"
-                >
-                  Mi Cuenta
-                </button>{" "}
-                para no ingresarla cada vez
-              </p>
-            )}
-          </aside>
-        </div>
-      </div>
-    </div>
-  );
+						{/* Hint para guardar dirección */}
+						{!prefilled && (
+							<p className='text-[9px] text-black/25 text-center px-4'>
+								Guarda tu dirección en{' '}
+								<button
+									type='button'
+									onClick={() =>
+										router.push(
+											'/account',
+										)
+									}
+									className='text-[#A07F3A] hover:underline'
+								>
+									Mi Cuenta
+								</button>{' '}
+								para no ingresarla cada vez
+							</p>
+						)}
+					</aside>
+				</div>
+			</div>
+		</div>
+	);
 }
