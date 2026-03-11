@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server';
 import Hero from '@/components/public/Hero';
 import ProductCard from '@/components/public/ProductCard';
 import Link from 'next/link';
-
+export const dynamic = 'force-dynamic';
 async function getFeaturedProducts() {
 	const supabase = await createClient();
 	const { data, error } = await supabase

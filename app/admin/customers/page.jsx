@@ -11,7 +11,7 @@ import {
 	ShoppingBag,
 	Mail,
 } from 'lucide-react';
-
+export const dynamic = 'force-dynamic';
 export default function CustomersPage() {
 	const supabase = createClient();
 	const [customers, setCustomers] = useState([]);

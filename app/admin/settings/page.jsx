@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { User, Store, Save, Loader2, Mail } from 'lucide-react';
 import NotificationSuccess from '@/components/admin/NotificationSuccess';
-
+export const dynamic = 'force-dynamic';
 export default function SettingsPage() {
 	const supabase = createClient();
 	const [loading, setLoading] = useState(true);

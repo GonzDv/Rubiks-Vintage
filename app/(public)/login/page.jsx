@@ -64,7 +64,7 @@ function PasswordInput({ value, onChange, placeholder = '•••••••�
 	);
 }
 
-// ─── Página principal ─────────────────────────────────────────────────────────
+export const dynamic = 'force-dynamic';
 export default function LoginPage() {
 	const supabase = createClient();
 	const router = useRouter();

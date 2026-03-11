@@ -11,7 +11,7 @@ import {
 	Loader2,
 	X,
 } from 'lucide-react';
-
+export const dynamic = 'force-dynamic';
 const STATUS_STYLES = {
 	pagado: { label: 'Pagado', classes: 'bg-emerald-50 text-emerald-600' },
 	pendiente: { label: 'Pendiente', classes: 'bg-amber-50 text-amber-600' },

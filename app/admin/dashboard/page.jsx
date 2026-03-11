@@ -20,7 +20,7 @@ const STATUS_STYLES = {
 	entregado: 'bg-black/5 text-black/50',
 	cancelado: 'bg-red-50 text-red-400',
 };
-
+export const dynamic = 'force-dynamic';
 export default function DashboardPage() {
 	const supabase = createClient();
 	const [loading, setLoading] = useState(true);

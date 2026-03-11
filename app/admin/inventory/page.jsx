@@ -8,7 +8,7 @@ import {
 import NotificationSuccess from "@/components/admin/NotificationSuccess";
 import Image from "next/image";
 
-// ─── MODAL DE EDICIÓN ────────────────────────────────────────────────────────
+export const dynamic = 'force-dynamic'
 function EditModal({ product, categories, onClose, onSaved }) {
   const supabase = createClient();
   const [loading, setLoading] = useState(false);

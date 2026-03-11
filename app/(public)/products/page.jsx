@@ -1,9 +1,10 @@
 'use client';
+
 import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import ProductCard from '@/components/public/ProductCard';
 import { Loader2 } from 'lucide-react';
-
+export const dynamic = 'force-dynamic';
 export default function ProductsPage() {
 	const supabase = createClient();
 	const [products, setProducts] = useState([]);
