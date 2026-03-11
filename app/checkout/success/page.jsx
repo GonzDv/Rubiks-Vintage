@@ -1,15 +1,15 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useCart } from '@/context/CartContext';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { createClient } from '@/utils/supabase/client';
 import { CheckCircle, Loader2, PackageCheck } from 'lucide-react';
+
 export const dynamic = 'force-dynamic';
-export default function CheckoutSuccessPage() {
+
+function SuccessContent() {
 	const { clearCart } = useCart();
 	const searchParams = useSearchParams();
 	const router = useRouter();
-	const supabase = createClient();
 	const [status, setStatus] = useState('loading');
 	const [orderData, setOrderData] = useState(null);
 
@@ -22,13 +22,11 @@ export default function CheckoutSuccessPage() {
 
 		const saveOrder = async () => {
 			try {
-				// Verificar sesión de Stripe desde nuestra API
 				const res = await fetch(
 					`/api/checkout/verify?session_id=${sessionId}`,
 				);
 				const data = await res.json();
 				if (!res.ok) throw new Error(data.error);
-
 				setOrderData(data);
 				clearCart();
 				setStatus('success');
@@ -37,11 +35,10 @@ export default function CheckoutSuccessPage() {
 				setStatus('error');
 			}
 		};
-
 		saveOrder();
 	}, []);
 
-	if (status === 'loading') {
+	if (status === 'loading')
 		return (
 			<div className='min-h-screen bg-[#F5F1EB] flex flex-col items-center justify-center gap-4 text-black/30'>
 				<Loader2
@@ -54,9 +51,8 @@ export default function CheckoutSuccessPage() {
 				</p>
 			</div>
 		);
-	}
 
-	if (status === 'error') {
+	if (status === 'error')
 		return (
 			<div className='min-h-screen bg-[#F5F1EB] flex flex-col items-center justify-center gap-4 text-black/30'>
 				<p className='text-[10px] uppercase tracking-[0.3em]'>
@@ -74,7 +70,6 @@ export default function CheckoutSuccessPage() {
 				</button>
 			</div>
 		);
-	}
 
 	return (
 		<div className='min-h-screen bg-[#F5F1EB] flex items-center justify-center px-4 py-16'>
@@ -88,7 +83,6 @@ export default function CheckoutSuccessPage() {
 						/>
 					</div>
 				</div>
-
 				<div className='space-y-3'>
 					<h1 className='text-4xl font-serif italic text-black'>
 						¡Gracias por tu pedido!
@@ -97,7 +91,6 @@ export default function CheckoutSuccessPage() {
 						Tu selección está confirmada
 					</p>
 				</div>
-
 				<div className='bg-white rounded-2xl p-6 border border-black/5 shadow-sm text-left space-y-3'>
 					<div className='flex items-center gap-2 mb-4'>
 						<PackageCheck
@@ -145,13 +138,11 @@ export default function CheckoutSuccessPage() {
 						</div>
 					)}
 				</div>
-
 				<p className='text-[10px] text-black/30 leading-relaxed'>
 					Recibirás un correo de confirmación. Nos pondremos
 					en contacto contigo pronto para coordinar el
 					envío.
 				</p>
-
 				<button
 					onClick={() => router.push('/')}
 					className='w-full bg-black text-white py-4 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-[#A07F3A] transition-all'
@@ -160,5 +151,26 @@ export default function CheckoutSuccessPage() {
 				</button>
 			</div>
 		</div>
+	);
+}
+
+export default function CheckoutSuccessPage() {
+	return (
+		<Suspense
+			fallback={
+				<div className='min-h-screen bg-[#F5F1EB] flex flex-col items-center justify-center gap-4 text-black/30'>
+					<Loader2
+						className='animate-spin'
+						size={32}
+						strokeWidth={1}
+					/>
+					<p className='text-[10px] uppercase tracking-[0.3em]'>
+						Cargando...
+					</p>
+				</div>
+			}
+		>
+			<SuccessContent />
+		</Suspense>
 	);
 }
