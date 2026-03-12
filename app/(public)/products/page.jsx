@@ -18,7 +18,8 @@ export default function ProductsPage() {
 				supabase
 					.from('products')
 					.select('*, categories(name)')
-					.order('created_at', { ascending: false }),
+					.order('created_at', { ascending: false })
+					.eq('is_active', true),
 				supabase
 					.from('categories')
 					.select('name')

@@ -91,6 +91,13 @@ export async function POST(request) {
 			.insert(itemsToInsert);
 
 		if (itemsError) throw itemsError;
+		
+		for (const item of items) {
+			await supabase.rpc('decrement_stock', {
+				p_product_id: item.id,
+				p_quantity: item.quantity,
+			});
+		}
 
 		console.log('Pedido guardado via webhook:', order.id);
 		return NextResponse.json({ received: true });

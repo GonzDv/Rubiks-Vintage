@@ -9,7 +9,8 @@ async function getFeaturedProducts() {
 		.from('products')
 		.select('*, categories(name)')
 		.order('created_at', { ascending: false })
-		.limit(6);
+		.limit(6)
+		.eq('is_active', true);
 
 	if (error) {
 		console.error('Error al traer productos:', error.message);

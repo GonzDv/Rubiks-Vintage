@@ -78,6 +78,13 @@ export async function GET(request) {
 
 		if (itemsError) throw itemsError;
 
+		for (const item of items) {
+			await supabase.rpc('decrement_stock', {
+				p_product_id: item.id,
+				p_quantity: item.quantity,
+			});
+		}
+
 		return NextResponse.json({
 			orderId: order.id,
 			customerName: session.metadata.customer_name,

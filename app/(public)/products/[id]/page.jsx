@@ -17,6 +17,7 @@ async function getProduct(id) {
 		.from('products')
 		.select('*, categories(name)')
 		.eq('id', id)
+		.eq('is_active', true)
 		.single();
 	return data;
 }
